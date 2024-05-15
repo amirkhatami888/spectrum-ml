@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 # import tensorflow as tf
 
-class timeSearies:
+class timeSeries:
     def __init__(self,time_list,value_list):
         self.time_list = time_list
         self.value_list = value_list
@@ -94,13 +94,3 @@ class timeSearies:
 
 
 
-# Example
-
-##old sries
-time_list = np.linspace(0,30,100)
-value_list = np.random.rand(100)
-t1 = timeSearies(time_list,value_list)
-t1.plot()
-print(t1.nuData)
-t2 = t1.changeTimestep(0.1)
-print(t2.nuData)
