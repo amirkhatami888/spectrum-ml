@@ -21,29 +21,38 @@ def fitness_function(chromosome):
   # Extract activations
   activations = [activation_list[int(chromosome[i])] for i in range(num_hidden_layers+1, 2*num_hidden_layers+1)]
 
-  # Build neural network (using standard ANN)
+  # Build neural network (using LSTM for time series)
   model = tf.keras.Sequential()
-  model.add(tf.keras.layers.Dense(neurons_per_layer[0], activation=activations[0], input_shape=(INPUT_SIZE,)))
+  model.add(tf.keras.layers.LSTM(neurons_per_layer[0], return_sequences=True, input_shape=(None, INPUT_SIZE)))
   for i in range(1, num_hidden_layers):
-    model.add(tf.keras.layers.Dense(neurons_per_layer[i], activation=activations[i]))
-  model.add(tf.keras.layers.Dense(OUTPUT_SIZE))  # Final layer predicts output time series
+    model.add(tf.keras.layers.LSTM(neurons_per_layer[i], return_sequences=True))
+  model.add(tf.keras.layers.LSTM(OUTPUT_SIZE)) 
+  model.add(tf.keras.layers.Dense(OUTPUT_SIZE))
 
   # Compile model
   model.compile(optimizer='adam', loss='mse', metrics=['mae'])  # Consider using MAE for time series
 
   # Train model (using example time series data)
   # Replace with your actual time series data (X_train, y_train)
-  X_train = np.random.rand(100, INPUT_SIZE)  # Sample time series data (adjust as needed)
+  X_train = np.random.rand(100, LOOK_BACK, INPUT_SIZE)  # Sample time series data (adjust LOOK_BACK)
   y_train = X_train  # Assuming output is same time series
+
+  # Reshape for LSTM (samples, time steps, features)
+  X_train = X_train.reshape(X_train.shape[0], -1, X_train.shape[2])
+  y_train = y_train.reshape(y_train.shape[0], -1, y_train.shape[2])
 
   model.fit(X_train, y_train, epochs=3, verbose=0)
 
   # Evaluate model fitness (consider using validation data for a more robust evaluation)
-  dummy_X = np.random.rand(10, INPUT_SIZE)  # Sample data for evaluation
-  dummy_y = np.random.rand(10, INPUT_SIZE)
+  dummy_X = np.random.rand(10, LOOK_BACK, INPUT_SIZE)
+  dummy_y = np.random.rand(10, LOOK_BACK, INPUT_SIZE)
+  dummy_X = dummy_X.reshape(dummy_X.shape[0], -1, dummy_X.shape[2])
+  dummy_y = dummy_y.reshape(dummy_y.shape[0], -1, dummy_y.shape[2])
   mse, _ = model.evaluate(dummy_X, dummy_y, verbose=0)
 
   return -mse  # Minimize mean squared error
+
+LOOK_BACK = 1  
 
 # Define variable boundaries (including number of hidden layers)
 varbound = np.array([[MIN_HIDDEN_LAYERS, MAX_HIDDEN_LAYERS]] +
