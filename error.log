@@ -1,0 +1,15 @@
+WARNING - the 'fullGenLapack' eigen solver is VERY SLOW. Consider using the default eigen solver.FullGenEigenSolver::solve() - the eigenvalue 2 is numerically undetermined or infinite
+FullGenEigenSolver::solve() - the eigenvalue 3 is numerically undetermined or infinite
+FullGenEigenSolver::solve() - the eigenvalue 4 is numerically undetermined or infinite
+FullGenEigenSolver::solve() - the eigenvalue 5 is numerically undetermined or infinite
+FullGenEigenSolver::solve() - the eigenvalue 6 is numerically undetermined or infinite
+FullGenEigenSolver::solve() - the eigenvalue 7 is numerically undetermined or infinite
+FullGenEigenSolver::solve() - the eigenvalue 8 is numerically undetermined or infinite
+FullGenEigenSolver::solve() - the eigenvalue 9 is numerically undetermined or infinite
+FullGenEigenSolver::solve() - the eigenvalue 10 is numerically undetermined or infinite
+Traceback (most recent call last):
+  File "d:\DATABASE\project\Dr.Mashyekhi\spectrum-ml\Function_PyOpensees.py", line 89, in <module>
+    Sa = PyOpenSees_Spectrum(t1)
+  File "d:\DATABASE\project\Dr.Mashyekhi\spectrum-ml\Function_PyOpensees.py", line 79, in PyOpenSees_Spectrum
+    a=OSP.responseSpectrum(tsTag, direction)
+AttributeError: module 'openseespy.opensees' has no attribute 'responseSpectrum'
